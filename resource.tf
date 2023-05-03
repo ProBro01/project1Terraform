@@ -25,9 +25,22 @@ resource "aws_instance" "hostVMs" {
   tags = {
     Name = format("hostVM-%d", count.index)
   }
-
-  
-
   vpc_security_group_ids = [aws_security_group.hostingVMSecGroup.id]
+
+  provisioner "file" {
+    source = "./templateHostingScript.sh"
+    destination = count.index == 0 ? "/home/ubuntu/templateHostingScript.sh" : "/home/ec2-user/templateHostingScript.sh"
+  }
+
+  provisioner "remote-exec" {
+    script = "templateHostingScript.sh"
+  }
+
+  connection {
+    type = "ssh"
+    user = count.index == 0 ? "ubuntu" : "ec2-user"
+    host = aws_instance.hostVMs[count.index].public_ip
+    private_key = file("C:\\Users\\Aryan\\.ssh\\id_rsa")
+  }
 
 }

@@ -8,19 +8,22 @@ resource "aws_instance" "hostVMUbuntu" {
   }
   vpc_security_group_ids = [aws_security_group.hostingVMSecGroup.id]
   provisioner "file" {
-    source      = "./tempHostUbuntu.sh"
-    destination = "/home/ubuntu/templateHostingScript.sh"
+    source      = "tempHostUbuntu.sh"
+    destination = "/home/ubuntu/templateHostUbuntu.sh"
   }
 
+  provisioner "file" {
+    source      = "./html/index.html"
+    destination = "/home/ubuntu/index.html"
+  }
   provisioner "remote-exec" {
     script = "tempHostUbuntu.sh"
-
   }
 
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    host        = aws_instance.hostVMUbuntu.public_ip
+    host        = self.public_ip
     private_key = file("C:\\Users\\Aryan\\.ssh\\id_rsa")
   }
 }
@@ -34,19 +37,24 @@ resource "aws_instance" "hostVMAmazon" {
   }
   vpc_security_group_ids = [aws_security_group.hostingVMSecGroup.id]
   provisioner "file" {
-    source      = ".tempHostAmazon.sh"
+    source      = "tempHostAmazon.sh"
     destination = "/home/ec2-user/tempHostAmazon.sh"
   }
 
-  provisioner "remote-exec" {
-    script = ".tempHostAmazon.sh"
-
+  provisioner "file" {
+    source      = "./html/index.html"
+    destination = "/home/ec2-user/index.html"
   }
+
+  provisioner "remote-exec" {
+    script = "tempHostAmazon.sh"
+  }
+  
 
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    host        = aws_instance.hostVMAmazon.public_ip
+    host        = self.public_ip
     private_key = file("C:\\Users\\Aryan\\.ssh\\id_rsa")
   }
 }

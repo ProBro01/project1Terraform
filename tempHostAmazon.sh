@@ -1,5 +1,6 @@
 #!/bin/bash
 
-sudo apt update
-sudo apt install httpd
+sudo yum update
+sudo yum install httpd -y
+sudo mv /home/ec2-user/index.html /var/www/html/index.html
 sudo systemctl start httpd

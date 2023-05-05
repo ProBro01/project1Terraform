@@ -58,6 +58,7 @@ resource "aws_instance" "hostVMAmazon" {
     private_key = file("C:\\Users\\Aryan\\.ssh\\id_rsa")
   }
 }
+
 # resource "aws_instance" "hostVMs" {
 #   # provider      = aws.webIAMuser
 #   instance_type = var.hostInstanceType

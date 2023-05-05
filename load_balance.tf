@@ -8,9 +8,9 @@ resource "aws_lb" "hostingVMlb" {
 }
 
 resource "aws_lb_listener" "lbListener" {
-  port                   = 80
-  protocol               = "HTTP"
-  load_load_balancer_arn = aws_lb.hostingVMlb.arn
+  port              = 80
+  protocol          = "HTTP"
+  load_balancer_arn = aws_lb.hostingVMlb.arn
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.hostTargetGroup.arn

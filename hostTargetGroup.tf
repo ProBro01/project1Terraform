@@ -4,6 +4,7 @@ resource "aws_lb_target_group" "hostTargetGroup" {
   protocol        = "HTTP"
   target_type     = "instance"
   ip_address_type = "ipv4"
+  vpc_id          = "vpc-081f619fb746eaf9e"
 
   health_check {
     enabled           = true
